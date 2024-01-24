@@ -4,7 +4,7 @@
 #include <iostream>
 #include "I2C/I2C.h"
 
-int8_t leadRed, leadBlack, leadWhite;
+char leadRed, leadBlack, leadWhite;
 
 int main() {
     while(true) {
@@ -19,6 +19,10 @@ int main() {
         }
 
         if (shi.readData(leadRed, leadBlack, leadWhite)) {
+
+            int lr = (int)leadRed;
+            int lb = (int)leadBlack;
+            int lw = (int)leadWhite;
 //        if (leadRed == true) {
 //            std::cout << "The red lead is connected" << std::endl;
 //        } else std::cout << "The red lead is NOT connected" << std::endl;
@@ -30,9 +34,9 @@ int main() {
 //        if (leadRed == true) {
 //            std::cout << "The white lead is connected" << std::endl;
 //        } else std::cout << "The red lead is NOT connected" << std::endl;
-            std::cout << "char 1: " << 5 << std::endl;
-            std::cout << "char 2: " << leadBlack << std::endl;
-            std::cout << "char 3: " << leadWhite << std::endl;
+            std::cout << "char 1: " << lr << std::endl;
+            std::cout << "char 2: " << lb << std::endl;
+            std::cout << "char 3: " << lw << std::endl;
         } else {
             std::cerr << "failed to read data from the I2C bus" << std::endl;
             return 1;

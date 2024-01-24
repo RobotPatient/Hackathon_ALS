@@ -23,9 +23,7 @@ void initI2C()
 
 void requestEvent()
 {
-    //Wire.write((uint8_t*)&LLstatus,sizeof(LLstatus));
-    //Wire.write((uint8_t*)&RAstatus, sizeof(RAstatus));
-    //Wire.write((uint8_t*)&LAstatus, sizeof(LAstatus));
+
     Wire.write(LLstatus);
     Wire.write(LAstatus);
     Wire.write(RAstatus);

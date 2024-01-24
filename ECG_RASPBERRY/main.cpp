@@ -4,7 +4,7 @@
 #include <iostream>
 #include "I2C/I2C.h"
 
-bool leadRed, leadBlack, leadWhite;
+char leadRed, leadBlack, leadWhite;
 
 int main() {
 

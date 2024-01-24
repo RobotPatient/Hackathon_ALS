@@ -29,9 +29,9 @@ int main() {
 //        if (leadRed == true) {
 //            std::cout << "The white lead is connected" << std::endl;
 //        } else std::cout << "The red lead is NOT connected" << std::endl;
-        std::cout << "char 1: " red << std::endl;
-        std::cout << "char 2: " black << std::endl;
-        std::cout << "char 3: " white << std::endl;
+        std::cout << "char 1: " << red << std::endl;
+        std::cout << "char 2: " << black << std::endl;
+        std::cout << "char 3: " << white << std::endl;
     } else {
         std::cerr << "failed to read data from the I2C bus" << std::endl;
         return 1;

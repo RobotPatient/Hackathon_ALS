@@ -37,7 +37,6 @@ int main() {
             std::cerr << "failed to read data from the I2C bus" << std::endl;
             return 1;
         }
-        Sleep(10000);
     }
 
     return 0;

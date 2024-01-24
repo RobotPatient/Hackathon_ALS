@@ -10,7 +10,7 @@
 class sensorHubI2C
 {
 public:
-    sensorHubI2C(const char* i2cDevice = "/dev/i2c-1", int i2cAddr = 0x68);
+    sensorHubI2C(const char* i2cDevice = "/dev/i2c-1", int i2cAddr = 0x2a);
     ~sensorHubI2C();
 
     bool begin();

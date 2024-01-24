@@ -13,7 +13,7 @@ int main() {
 
     //start I2C connection
     if (!shi.begin()) {
-        std::cerr << "Failed to initialize I2C"
+        std::cerr << "Failed to initialize I2C";
         return 1;
     }
 
@@ -33,6 +33,6 @@ int main() {
         std::cerr << "failed to read data from the I2C bus" << std::endl;
         return 1;
     }
-    
+
     return 0;
 }

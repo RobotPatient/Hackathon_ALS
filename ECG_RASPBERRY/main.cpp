@@ -4,7 +4,7 @@
 #include <iostream>
 #include "I2C/I2C.h"
 
-char leadRed, leadBlack, leadWhite;
+int8_t leadRed, leadBlack, leadWhite;
 
 int main() {
     while(true) {

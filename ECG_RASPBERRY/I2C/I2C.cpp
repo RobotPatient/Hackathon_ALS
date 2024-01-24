@@ -32,7 +32,7 @@ bool sensorHubI2C::begin()
     return true;
 }
 
-bool sensorHubI2C::readData(char& red, char& black, char& white)
+bool sensorHubI2C::readData(int8_t & red, int8_t & black, int8_t & white)
 {
     unsigned char cmd[2] = {0x2C, 0x06};
     if (write(_i2cFile, cmd, 2) != 2)
@@ -41,7 +41,7 @@ bool sensorHubI2C::readData(char& red, char& black, char& white)
     }
     usleep(10000);
 
-    unsigned char data[3];
+    unsigned int8_t data[3];
     if (read(_i2cFile, data, 3) != 3)
     {
         return false;

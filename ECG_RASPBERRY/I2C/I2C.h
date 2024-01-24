@@ -14,7 +14,7 @@ public:
     ~sensorHubI2C();
 
     bool begin();
-    bool readData(char&, char&, char&);
+    bool readData(int8_t&, int8_t&, int8_t&);
 
 private:
     const char* _i2cDevice;

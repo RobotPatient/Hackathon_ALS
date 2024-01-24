@@ -30,7 +30,7 @@ int main() {
 //        if (leadRed == true) {
 //            std::cout << "The white lead is connected" << std::endl;
 //        } else std::cout << "The red lead is NOT connected" << std::endl;
-            std::cout << "char 1: " << leadRed << std::endl;
+            std::cout << "char 1: " << 5 << std::endl;
             std::cout << "char 2: " << leadBlack << std::endl;
             std::cout << "char 3: " << leadWhite << std::endl;
         } else {

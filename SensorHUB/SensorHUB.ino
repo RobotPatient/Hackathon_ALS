@@ -16,7 +16,8 @@ TwiPinPair portBackbone = TwiPinPair(W0_SCL, W0_SDA);
 TwiPinPair portSensorsA = TwiPinPair(W1_SCL, W1_SDA);
 TwiPinPair portSensorsB = TwiPinPair(W2_SCL, W2_SDA);
 
-#define TEMP_MODULE_ADDR 0x2A
+#define ECG_MODULE_ADDR 0x2A
+#define TEMP_PRES_MODULE_ADDR 0x68
 #define ledHb 14
 
 unsigned long lastLedFlash = 0;
@@ -46,117 +47,102 @@ void setup() {
   Serial.begin(115200);
   delay(500);
 
-  Wire.begin();
-  WireBackbone.begin(0x2B);
+  Wire.begin(0x2B);
   WireSensorA.begin();
   WireSensorB.begin();
 
   pinMode(ledHb, OUTPUT);
   digitalWrite(ledHb, HIGH);
 
-  portBackbone.setPinPeripheralStates();
   portSensorsA.setPinPeripheralAltStates();
   portSensorsB.setPinPeripheralStates();
+  
+  int channel = 1;
+  // Configuration byte: 16-bit resolution, single-ended mode (channel), continuous conversion mode
+  byte configByte = B10000000 | (channel << 4);
 
-  while (!Serial)
-    ;
+  //WireSensorA.beginTransmission(TEMP_PRES_MODULE_ADDR);
+  //WireSensorA.write(configByte);
+  //WireSensorA.endTransmission();
+  //WireSensorB.beginTransmission(TEMP_PRES_MODULE_ADDR);
+  //WireSensorB.write(configByte);
+  //WireSensorB.endTransmission();
+  Wire.onRequest(sendData); 
 
   Serial.println("Ready...");
-  delay(1500);
+  delay(500);
   digitalWrite(ledHb, LOW);
 }
 
 
 void loop() {
   digitalWrite(ledHb, HIGH);
-  //boolean result = reportDevicesWithAddressOn(&WireBackbone, 0x60, true);  // 0x10 is maybe finger position sensor.
-
-  //reportDevicesOn(&WireBackbone, "Mainbus");
-  reportDevicesOn(&WireSensorA, "Sensors Ax");
-  reportDevicesOn(&WireSensorB, "Sensors Bx");
-
-  delay(500);  // wait 5 seconds for next scan
+  delay(500);
   digitalWrite(ledHb, LOW);
-  delay(500);  // wait 5 seconds for next scan
+  delay(500);
+  //readADC(&WireSensorA);
+//  sendmessage();
+  //readADC(&WireSensorB);
 }
 
-void reportDevicesOn(TwoWire *wire, String label) {
-  byte error, address;
-  int nDevices;
-  Serial.print("Scanning bus ");
-  Serial.println(label);
-  for (address = 1; address < 127; address++) {
-    digitalWrite(ledHb, LOW);
-    // The i2c_scanner uses the return value of
-    // the Write.endTransmisstion to see if
-    // a device did acknowledge to the address.
+void sendData() {
+  //unsigned char dataToSend = 42;  // Verander dit naar de waarde die je wilt verzenden
 
-    //wire->beginTransmission(address);
-    //error = wire->endTransmission();
+  // Verzend de unsigned char naar de I2C-master
+  Wire.write("test");
 
-    if (reportDevicesWithAddressOn(wire, address)) {
-      digitalWrite(ledHb, HIGH);
-      Serial.print("I2C device found at address 0x");
-      if (address < 16)
-        Serial.print("0");
-      Serial.print(address, HEX);
-      Serial.println("  !");
-
-      if (address == TEMP_MODULE_ADDR) {
-        readADC(wire, 1);
-      }
-
-      nDevices++;
-    } else if (error == 4) {
-      Serial.print("Unknow error at address 0x");
-      if (address < 16)
-        Serial.print("0");
-      Serial.println(address, HEX);
+  Serial.print("Verzonden naar master: ");
+  //Serial.println(dataToSend);
+}
+/*
+void sendmessage() {
+  for(int i = 0; i <= 3; i++) {
+    if (ECG[i] = 0) {
+      bit[i] = 0;
+      bit[i+3] = 0;
+    else if (ECG[i] = 1) {
+      bit[i] = 0;
+      bit[i+3] = 1;
+    }
+    else if (ECG[i] = 2) {
+      bit[i] = 1;
+      bit[i+3] = 1;
     }
   }
-  if (nDevices == 0)
-    Serial.println("No I2C devices found on bus 1\n");
-  else
-    Serial.println("done\n");
+  // Een byte maken door bitwise OR te gebruiken
+  // Hier wordt aangenomen dat de bits op volgorde zijn, van hoogste naar laagste significantie.
+  unsigned char resultByte = (bit0 << 7) |(bit1 << 6) | (bit2 << 5) | (bit3 << 4) | (bit4 << 3) | (bit5 << 2) | (bit6 << 1) | bit7;
+  WireBackbone.write(resultByte);
 }
+*/
+void readADC(TwoWire *wire) {
 
-
-
-boolean reportDevicesWithAddressOn(TwoWire *wire, byte deviceAddress) {
-  wire->beginTransmission(deviceAddress);
-  byte error = wire->endTransmission();
-  boolean result = (error == 0);
-  return result;
-}
-
-boolean reportDevicesWithAddressOn(TwoWire *wire, byte deviceAddress, boolean report) {
-  wire->beginTransmission(deviceAddress);
-  byte error = wire->endTransmission();
-  boolean result = (error == 0);
-  char buffer[40];
-  if (report) {
-    if (result) {
-      sprintf(buffer, "Device was found on address 0x%02X", deviceAddress);
-    } else {
-      sprintf(buffer, "No device was found on address 0x%02X", deviceAddress);
-    }
-    Serial.println(buffer);
-  }
-  return result;
-}
-
-
-void readADC(TwoWire *wire, byte channel) {
-
-  wire->requestFrom(TEMP_MODULE_ADDR, 3);  // Read 3 bytes from MCP3426
+  wire->requestFrom(ECG_MODULE_ADDR, 3);
   if (wire->available() >= 3) {
-    int firstByte = wire->read();
-    int secondByte = wire->read();
-    int thirdByte = wire->read();
+    int ECG1 = wire->read();
+    int ECG2 = wire->read();
+    int ECG3 = wire->read();
 
     // Print the ADC value for the specific channel
-    Serial.println(firstByte);
-    Serial.println(secondByte);
-    Serial.println(thirdByte);
+    Serial.println(ECG1);
+    Serial.println(ECG2);
+    Serial.println(ECG3);
+  }
+
+  int channel = 1;
+  wire->requestFrom(TEMP_PRES_MODULE_ADDR, 3);  // Read 3 bytes from MCP3426
+  if (wire->available() >= 3) {
+    byte firstByte = wire->read();
+    byte secondByte = wire->read();
+    //byte thirdByte = wire->read();
+
+    // Combine the received bytes to form the 18-bit ADC value
+    int16_t rawValue = ((firstByte & 0x0F) << 8) | (secondByte);
+
+    // Print the ADC value for the specific channel
+    Serial.print("ADC Value (CH");
+    Serial.print(channel);
+    Serial.print("+): ");
+    Serial.println(rawValue);
   }
 }

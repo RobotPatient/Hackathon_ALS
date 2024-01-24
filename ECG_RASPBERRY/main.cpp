@@ -24,16 +24,16 @@ int main()
         if(shi.readData(leadRed, leadBlack, leadWhite))
         {
             if(leadRed == true) {
-                std::out << "The red lead is connected" << std::endl;
-            } else std::out << "The red lead is NOT connected" << std::endl;
+                std::cout << "The red lead is connected" << std::endl;
+            } else std::cout << "The red lead is NOT connected" << std::endl;
 
             if(leadRed == true) {
-                std::out << "The black lead is connected" << std::endl;
-            } else std::out << "The red lead is NOT connected" << std::endl;
+                std::cout << "The black lead is connected" << std::endl;
+            } else std::cout << "The red lead is NOT connected" << std::endl;
 
             if(leadRed == true) {
-                std::out << "The white lead is connected" << std::endl;
-            } else std::out << "The red lead is NOT connected" << std::endl;
+                std::cout << "The white lead is connected" << std::endl;
+            } else std::cout << "The red lead is NOT connected" << std::endl;
         }
         else
         {

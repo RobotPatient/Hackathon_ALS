@@ -77,7 +77,7 @@ class GraphWidget(QWidget):
         # Add button to switch between ECG signals
         self.button_switch_ecg = QPushButton("Switch ECG")
         self.button_switch_ecg.clicked.connect(self.switch_ecg_signal)
-        self.button_switch_ecg.setStyleSheet("color: white; border-color: gray; min-height: 50px")
+        self.button_switch_ecg.setStyleSheet("color: white; border-color: gray; min-height: 100px")
         self.layout().addWidget(self.button_switch_ecg)
 
         # Set up a QTimer to update the x-axis at regular intervals
@@ -144,6 +144,11 @@ class InfoWidget(QWidget):
         self.layout().addWidget(self.resperation)
 
         #conection info
+        self.temp = QLabel("the thermometer is not connected")
+        self.temp.setStyleSheet("background-color: black; color: red; max-height: 50px; border-width: 2px; border-style: solid; border-color: gray; font-size: 15px; text-align: center")
+        self.layout().addWidget(self.temp)
+
+        #conection info
         self.connection = QLabel("leads are not connected")
         self.connection.setStyleSheet("background-color: black; color: red; max-height: 50px; border-width: 2px; border-style: solid; border-color: gray; font-size: 15px; text-align: center")
         self.layout().addWidget(self.connection)
@@ -167,7 +172,7 @@ class InfoWidget(QWidget):
             self.connection.setStyleSheet("background-color: black; color: red; max-height: 50px; border-width: 2px; border-style: solid; border-color: gray; font-size: 15px; text-align: center")
             self.connection.setText("the leads are not connected")
 
-        if read() == 84:
+        if read() == 84 or read() == 85 or read() == 86 or read() == 87:
             state = 1
         elif read() > 84:
             state = 0

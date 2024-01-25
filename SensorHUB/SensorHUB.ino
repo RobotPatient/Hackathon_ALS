@@ -2,6 +2,8 @@
 #include "wiring_private.h"  // pinPeripheral() function
 #include "pinTools.h"
 
+#include "Sensor.hpp"
+
 // i2c system bus
 #define W0_SCL 27  // PA22
 #define W0_SDA 26  // PA23
@@ -56,7 +58,7 @@ void setup() {
 
   portSensorsA.setPinPeripheralAltStates();
   portSensorsB.setPinPeripheralStates();
-  
+
   int channel = 1;
   // Configuration byte: 16-bit resolution, single-ended mode (channel), continuous conversion mode
   byte configByte = B10000000 | (channel << 4);
@@ -67,21 +69,32 @@ void setup() {
   //WireSensorB.beginTransmission(TEMP_PRES_MODULE_ADDR);
   //WireSensorB.write(configByte);
   //WireSensorB.endTransmission();
-  Wire.onRequest(sendData); 
+  Wire.onRequest(sendData);
 
   Serial.println("Ready...");
   delay(500);
   digitalWrite(ledHb, LOW);
+
+
 }
 
+Sensor mySensor(0X2A, &WireSensorA);
 
 void loop() {
+
+  mySensor.wireObject->requestFrom(mySensor.deviceAddress, 3);
+  while (mySensor.wireObject->available()) {
+    Serial.println(mySensor.wireObject->read());
+  }
+
+
+
   digitalWrite(ledHb, HIGH);
   delay(500);
   digitalWrite(ledHb, LOW);
   delay(500);
   //readADC(&WireSensorA);
-//  sendmessage();
+  //  sendmessage();
   //readADC(&WireSensorB);
 }
 
@@ -95,7 +108,7 @@ void sendData() {
   //Serial.println(dataToSend);
 }
 /*
-void sendmessage() {
+  void sendmessage() {
   for(int i = 0; i <= 3; i++) {
     if (ECG[i] = 0) {
       bit[i] = 0;
@@ -113,7 +126,7 @@ void sendmessage() {
   // Hier wordt aangenomen dat de bits op volgorde zijn, van hoogste naar laagste significantie.
   unsigned char resultByte = (bit0 << 7) |(bit1 << 6) | (bit2 << 5) | (bit3 << 4) | (bit4 << 3) | (bit5 << 2) | (bit6 << 1) | bit7;
   WireBackbone.write(resultByte);
-}
+  }
 */
 void readADC(TwoWire *wire) {
 

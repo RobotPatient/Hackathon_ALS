@@ -95,7 +95,7 @@ class GraphWidget(QWidget):
             self.ecg_part = np.roll(self.ecg_part, -50)
             self.rsp15_part = np.roll(self.rsp15_part, -50)
 
-class info_widget(QWidget):
+class InfoWidget(QWidget):
     def __init__(selfe, parent=None):
         super(InfoWidget, self).__init__(parent)
 

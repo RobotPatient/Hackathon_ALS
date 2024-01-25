@@ -160,7 +160,7 @@ class InfoWidget(QWidget):
         self.timer.start(1000)  # Update every 100 milliseconds
 
     def update_info(self):
-        global status
+        global state
         #update data fieldsS
         if state == 1:
             self.heart_beat.setText(str(ecg_rate) + " BPM")
@@ -174,12 +174,11 @@ class InfoWidget(QWidget):
             self.connection.setText("the leads are not connected")
 
         if read() == 0:
-            status = 1
+            state = 1
         else:
-            status = 0
+            state = 0
         print(read())
 
-        status = 1
             
 
 

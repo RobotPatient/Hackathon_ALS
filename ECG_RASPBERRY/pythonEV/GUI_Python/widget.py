@@ -25,7 +25,7 @@ class GraphWidget(QWidget):
     def __init__(self, parent=None):
         super(GraphWidget, self).__init__(parent)
         self.ecg_rate = 50  # Default heart rate
-        self.state = 1      # Default on state
+        self.state = 0      # Default off state
         self.create_ecg_signal()
 
         #Initializes Plot
@@ -79,7 +79,7 @@ class GraphWidget(QWidget):
 
     def toggle_all(self):
         #toggle between on and off
-        self.state = 0 if self.state == 1 else 1
+        self.state = 1 if self.state == 0 else 0
 
 
     def update_plot(self):

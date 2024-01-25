@@ -199,7 +199,7 @@ def main():
     main_window.show()
     sys.exit(app.exec())
 
-    if read() == 21:
+    if read() == 84:
         status = 1
     else:
         status = 0

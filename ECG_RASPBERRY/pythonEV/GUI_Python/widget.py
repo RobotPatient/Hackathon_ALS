@@ -172,14 +172,24 @@ class InfoWidget(QWidget):
             self.connection.setStyleSheet("background-color: black; color: red; max-height: 50px; border-width: 2px; border-style: solid; border-color: gray; font-size: 15px; text-align: center")
             self.connection.setText("the leads are not connected")
 
-        if read() == 84 or read() == 85 or read() == 86 or read() == 87:
-            state = 1
-        elif read() > 84:
-            state = 0
-            self.connection.setStyleSheet("background-color: black; color: yellow; max-height: 50px; border-width: 2px; border-style: solid; border-color: gray; font-size: 15px; text-align: center")
-            self.connection.setText("the leads are not connected correctly")
+        bin = bin(read())
+
+        term1 = bin & 0b00000001
+        term2 = bin & 0b00000010
+
+        #term logic
+        if term1 == 0 and term2 == 0:
+            self.temp.setStyleSheet("background-color: black; color: red; max-height: 50px; border-width: 2px; border-style: solid; border-color: gray; font-size: 15px; text-align: center")
+            self.temp.setText("the termometer is not connected")
+        elif term1 == 1 and term2 == 0:
+            self.temp.setStyleSheet("background-color: black; color: green; max-height: 50px; border-width: 2px; border-style: solid; border-color: gray; font-size: 15px; text-align: center")
+            self.temp.setText("term1: 23C, temp2: not connected")
+        elif term1 == 0 and term2 == 2:
+            self.temp.setStyleSheet("background-color: black; color: green; max-height: 50px; border-width: 2px; border-style: solid; border-color: gray; font-size: 15px; text-align: center")
+            self.temp.setText("term1: not connected, temp2: 23C")
         else:
-            state = 0
+            self.temp.setStyleSheet("background-color: black; color: green; max-height: 50px; border-width: 2px; border-style: solid; border-color: gray; font-size: 15px; text-align: center")
+            self.temp.setText("term1: 23C, temp2: 23C")
 
             
 

@@ -136,7 +136,7 @@ class InfoWidget(QWidget):
     def update_info(self):
         if state == 0:
             self.heart_beat.setText('0')
-            self.resperation.text('0')
+            self.resperation.setText('0')
         else:
             self.heart_beat.setText(ecg_rate)
             self.resperation.setText(rsp_rate)

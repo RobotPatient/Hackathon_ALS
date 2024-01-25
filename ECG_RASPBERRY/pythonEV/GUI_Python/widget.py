@@ -95,6 +95,20 @@ class GraphWidget(QWidget):
             self.ecg_part = np.roll(self.ecg_part, -50)
             self.rsp15_part = np.roll(self.rsp15_part, -50)
 
+class info_widget(QWidget):
+    def __init__(selfe, parent=none):
+        super(InfoWidget, self).__init__(parent)
+
+        #Ceates box for formatting
+        self.setLayout(QVBoxLayout())
+        self.layout().addWidget(self.plot_widget_sin)
+        self.layout().addWidget(self.plot_widget_cos)
+
+        self.heart_beat = QLable("Heart rate")
+        self.layout().addWidget(self.button_switch_ecg)
+
+
+
 class MainWindow(QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
@@ -102,9 +116,11 @@ class MainWindow(QMainWindow):
         central_widget = QWidget()
         self.setCentralWidget(central_widget)
 
-        layout = QVBoxLayout(central_widget)
+        layout = QHBoxLayout(central_widget)
         self.graph_widget = GraphWidget()
         layout.addWidget(self.graph_widget)
+        self.info_widget = InfoWidget()
+        layout.addWidget(self.info_widget)
 
 def main():
     app = QApplication(sys.argv)

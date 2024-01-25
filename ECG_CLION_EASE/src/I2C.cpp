@@ -23,7 +23,6 @@ void initI2C()
 
 void requestEvent()
 {
-
     Wire.write(LLstatus);
     Wire.write(LAstatus);
     Wire.write(RAstatus);

@@ -85,7 +85,12 @@ class GraphWidget(QWidget):
 
     def switch_ecg_signal(self):
         # Toggle between ECG signals with heart rates of 50 and 100
-        self.ecg_rate = 100 if self.ecg_rate == 50 else 50
+        if self.ecg_rate == 50:
+            self.ecg_rate = 100 
+            ecg_rate = 100
+        else: 
+            self.ecg_rate = 50
+            ecg_rate = 50
         self.create_ecg_signal()
 
     def toggle_all(self):
@@ -123,8 +128,18 @@ class InfoWidget(QWidget):
         self.resperation.setStyleSheet("background-color: black; color: white; min-width: 200px; border-width: 2px; border-style: solid; border-color: gray")
         self.layout().addWidget(self.resperation)
 
-    def update_info(GraphWidget):
-        hb = GraphWidget.ecg_rate
+        #setup a timer
+        self.timer = pg.QtCore.QTimer(self)
+        self.timer.timeout.connect(self.update_info)
+        self.timer.start(100)  # Update every 100 milliseconds
+
+    def update_info(self):
+        if state == 0:
+            self.heart_beat = '0'
+            self.resperation = '0'
+        else:
+            self.heart_beat = ecg_rate
+            self.resperation = rsp_rate
 
 
 

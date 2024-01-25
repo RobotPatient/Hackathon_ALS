@@ -174,10 +174,10 @@ class InfoWidget(QWidget):
 
         bin = read()
 
+        #term logic
         term1 = bin & 0b00000001
         term2 = bin & 0b00000010
 
-        #term logic
         if term1 == 0 and term2 == 0:
             self.temp.setStyleSheet("background-color: black; color: red; max-height: 50px; border-width: 2px; border-style: solid; border-color: gray; font-size: 15px; text-align: center")
             self.temp.setText("the termometer is not connected")
@@ -190,6 +190,19 @@ class InfoWidget(QWidget):
         else:
             self.temp.setStyleSheet("background-color: black; color: green; max-height: 50px; border-width: 2px; border-style: solid; border-color: gray; font-size: 15px; text-align: center")
             self.temp.setText("term1: 23C, temp2: 23C")
+
+        #ecg logic
+        leads = bin & 0b11111100
+
+        if leads == 84:
+            state = 1
+        elif leads > 84:
+            self.connection.setStyleSheet("background-color: black; color: yellow; max-height: 50px; border-width: 2px; border-style: solid; border-color: gray; font-size: 15px; text-align: center")
+            self.connection.setText("the leads are not connected correctly")
+            state = 0
+        else:
+            state = 0
+
 
             
 

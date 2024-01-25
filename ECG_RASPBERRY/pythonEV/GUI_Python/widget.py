@@ -44,7 +44,7 @@ class GraphWidget(QWidget):
         self.y_cos = self.rsp15_part
 
         #Setup lines for upper & bottom plot
-        self.curve_sin = self.plot_widget_sin.plot(self.x_sin, self.y_sin, pen='b', name='Sinus')
+        self.curve_sin = self.plot_widget_sin.plot(self.x_sin, self.y_sin, pen='g', name='Sinus')
         self.curve_cos = self.plot_widget_cos.plot(self.x_cos, self.y_cos, pen='r', name='Cosinus')
 
         # Set titles for the plot widgets

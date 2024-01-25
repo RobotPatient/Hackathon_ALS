@@ -139,7 +139,8 @@ class InfoWidget(QWidget):
         self.timer.start(100)  # Update every 100 milliseconds
 
     def update_info(self):
-        self.heart_beat.setText('5')
+        #update data fieldsS
+        self.heart_beat.setText(str(ecg_rate))
         self.resperation.setText(str(rsp_rate))
             
 

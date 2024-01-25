@@ -127,12 +127,12 @@ class InfoWidget(QWidget):
 
         #HB info
         self.heart_beat = QLabel("HB")
-        self.heart_beat.setStyleSheet("background-color: black; color: green; min-width: 200px; border-width: 2px; border-style: solid; border-color: gray")
+        self.heart_beat.setStyleSheet("background-color: black; color: green; min-width: 200px; border-width: 2px; border-style: solid; border-color: gray; font-size: 40px; text-align: center")
         self.layout().addWidget(self.heart_beat)
 
         #RP info
         self.resperation = QLabel("RP")
-        self.resperation.setStyleSheet("background-color: black; color: white; min-width: 200px; border-width: 2px; border-style: solid; border-color: gray")
+        self.resperation.setStyleSheet("background-color: black; color: white; min-width: 200px; border-width: 2px; border-style: solid; border-color: gray; font-size: 40px; text-align: center")
         self.layout().addWidget(self.resperation)
 
         #setup a timer

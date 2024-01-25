@@ -22,33 +22,25 @@ TwiPinPair portSensorsB = TwiPinPair(W2_SCL, W2_SDA);
 #define TEMP_PRES_MODULE_ADDR 0x68
 #define ledHb 14
 
+#define updateCycle 100
+
+byte responseData = 0;
+
 unsigned long lastLedFlash = 0;
 
 bool ledLevel = false;
 
-// SDA will be on SERCOM1.0 D11 and SCL will be on SERCOM1.1 D13
-
-// Default Wire:
-// I2C / SERCOM 0:
-// PA22 / SDA on pin 11;
-// PA23 / SCL on pin 12;
-
-// On the Development Board:
-// D13_SCL_PA17 /﻿D11_SDA_PA16
-// D3_SCL_PA09 / D4_SDA_PA08
-// SCL_PA23 / SDA_PA22 are they mixed up? Needs checking Nov 5, 2021. SFM Could be switched using jumper wires on the pads JP9/JP10
-
 TwoWire WireBackbone(&sercom3, W0_SDA, W0_SCL);  // Main
 TwoWire WireSensorA(&sercom1, W1_SDA, W1_SCL);   // Sensor A
 TwoWire WireSensorB(&sercom4, W2_SDA, W2_SCL);   // Sensor B
-// And of course standard Wire
 
+Sensor tempSens1(TEMP_PRES_MODULE_ADDR, &WireSensorA, 500, 4000);
+Sensor tempSens2(TEMP_PRES_MODULE_ADDR, &WireSensorB, 500, 4000);
+Sensor ECG_LL(ECG_MODULE_ADDR, &WireSensorA, 0, 2);
+Sensor ECG_LA(ECG_MODULE_ADDR, &WireSensorA, 0, 2);
+Sensor ECG_RA(ECG_MODULE_ADDR, &WireSensorA, 0, 2);
 
 void setup() {
-  delay(500);
-  Serial.begin(115200);
-  delay(500);
-
   Wire.begin(0x2B);
   WireSensorA.begin();
   WireSensorB.begin();
@@ -59,27 +51,8 @@ void setup() {
   portSensorsA.setPinPeripheralAltStates();
   portSensorsB.setPinPeripheralStates();
 
-  int channel = 1;
-  // Configuration byte: 16-bit resolution, single-ended mode (channel), continuous conversion mode
-  byte configByte = B10000000 | (channel << 4);
-
   Wire.onRequest(requestEvent);
-
-  Serial.println("Ready...");
-  delay(500);
-  digitalWrite(ledHb, LOW);
-
-
 }
-
-Sensor tempSens1(0X68, &WireSensorA, 500, 4000);
-Sensor tempSens2(0X68, &WireSensorB, 500, 4000);
-Sensor ECG_LL(0X2A, &WireSensorA, 0, 2);
-Sensor ECG_LA(0X2A, &WireSensorA, 0, 2);
-Sensor ECG_RA(0X2A, &WireSensorA, 0, 2);
-
-byte responseData = 0;
-
 
 void loop() {
   int16_t tempSens1Waarde = 0;
@@ -108,23 +81,8 @@ void loop() {
     ECG_LLWaarde = ECG_LL.wireObject->read();
     ECG_LAWaarde = ECG_LL.wireObject->read();
     ECG_RAWaarde = ECG_LL.wireObject->read();
-    Serial.print(ECG_LLWaarde);
-    Serial.print(ECG_LAWaarde);
-    Serial.println(ECG_RAWaarde);
   }
 
-
-  // Use individual bits to represent different information
-  Serial.print(tempSens1.isCableConnected(tempSens1Waarde));
-  Serial.print(" ");
-  Serial.print(tempSens2.isCableConnected(tempSens2Waarde));
-  Serial.print(" ");
-  Serial.print(ECG_LL.howCableConnected(ECG_LAWaarde));
-  Serial.print(" ");
-  Serial.print(ECG_LA.howCableConnected(ECG_LAWaarde));
-  Serial.print(" ");
-  Serial.println(ECG_RA.howCableConnected(ECG_RAWaarde));
-  
   responseData = 0;
   responseData |= (tempSens1.isCableConnected(tempSens1Waarde));
   responseData |= (tempSens2.isCableConnected(tempSens2Waarde) << 1);
@@ -132,76 +90,12 @@ void loop() {
   responseData |= (ECG_LA.howCableConnected(ECG_LAWaarde) << 4);
   responseData |= (ECG_RA.howCableConnected(ECG_RAWaarde) << 6);
 
-  Serial.println(responseData, BIN);
-
   digitalWrite(ledHb, HIGH);
-  delay(500);
+  delay(updateCycle/2);
   digitalWrite(ledHb, LOW);
-  delay(500);
+  delay(updateCycle/2);
 }
 
 void requestEvent() {
   Wire.write(responseData);
-}
-
-void sendData() {
-  //unsigned char dataToSend = 42;  // Verander dit naar de waarde die je wilt verzenden
-
-  // Verzend de unsigned char naar de I2C-master
-  Wire.write("test");
-
-  Serial.print("Verzonden naar master: ");
-  //Serial.println(dataToSend);
-}
-/*
-  void sendmessage() {
-  for(int i = 0; i <= 3; i++) {
-    if (ECG[i] = 0) {
-      bit[i] = 0;
-      bit[i+3] = 0;
-    else if (ECG[i] = 1) {
-      bit[i] = 0;
-      bit[i+3] = 1;
-    }
-    else if (ECG[i] = 2) {
-      bit[i] = 1;
-      bit[i+3] = 1;
-    }
-  }
-  // Een byte maken door bitwise OR te gebruiken
-  // Hier wordt aangenomen dat de bits op volgorde zijn, van hoogste naar laagste significantie.
-  unsigned char resultByte = (bit0 << 7) |(bit1 << 6) | (bit2 << 5) | (bit3 << 4) | (bit4 << 3) | (bit5 << 2) | (bit6 << 1) | bit7;
-  WireBackbone.write(resultByte);
-  }
-*/
-void readADC(TwoWire * wire) {
-
-  wire->requestFrom(ECG_MODULE_ADDR, 3);
-  if (wire->available() >= 3) {
-    int ECG1 = wire->read();
-    int ECG2 = wire->read();
-    int ECG3 = wire->read();
-
-    // Print the ADC value for the specific channel
-    Serial.println(ECG1);
-    Serial.println(ECG2);
-    Serial.println(ECG3);
-  }
-
-  int channel = 1;
-  wire->requestFrom(TEMP_PRES_MODULE_ADDR, 3);  // Read 3 bytes from MCP3426
-  if (wire->available() >= 3) {
-    byte firstByte = wire->read();
-    byte secondByte = wire->read();
-    //byte thirdByte = wire->read();
-
-    // Combine the received bytes to form the 18-bit ADC value
-    int16_t rawValue = ((firstByte & 0x0F) << 8) | (secondByte);
-
-    // Print the ADC value for the specific channel
-    Serial.print("ADC Value (CH");
-    Serial.print(channel);
-    Serial.print("+): ");
-    Serial.println(rawValue);
-  }
 }

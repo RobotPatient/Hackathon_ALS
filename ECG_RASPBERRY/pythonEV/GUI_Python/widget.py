@@ -101,8 +101,6 @@ class InfoWidget(QWidget):
 
         #Ceates box for formatting
         self.setLayout(QVBoxLayout())
-        self.layout().addWidget(self.plot_widget_sin)
-        self.layout().addWidget(self.plot_widget_cos)
 
         self.heart_beat = QPushButton("test")
         self.layout().addWidget(self.heart_beat)

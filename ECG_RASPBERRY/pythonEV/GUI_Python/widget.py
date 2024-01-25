@@ -21,11 +21,18 @@ import numpy as np
 import pyqtgraph as pg
 import neurokit2 as nk              #neurokit2 library for creating ECG & RSP signal
 
+ecg_rate = 50
+rsp_rate = 15
+state = 0
+
 class GraphWidget(QWidget):
     def __init__(self, parent=None):
         super(GraphWidget, self).__init__(parent)
-        self.ecg_rate = 50  # Default heart rate
-        self.state = 0      # Default off state
+        global ecg_rate 
+        global rsp_rate
+        global state
+        self.ecg_rate = ecg_rate  # Default heart rate
+        self.state = state      # Default off state
         self.create_ecg_signal()
 
         #Initializes Plot
@@ -74,7 +81,7 @@ class GraphWidget(QWidget):
     def create_ecg_signal(self):
             # Generate ECG & RSP using NeuroKit library
             self.ecg_part = nk.ecg_simulate(duration=10, sampling_rate=500, noise=0.1, heart_rate=self.ecg_rate).ravel()
-            self.rsp15_part = nk.rsp_simulate(duration=20, sampling_rate=800, noise=0.005, respiratory_rate=15, method="breathmetrics").ravel()
+            self.rsp15_part = nk.rsp_simulate(duration=20, sampling_rate=800, noise=0.005, respiratory_rate=rsp_rate, method="breathmetrics").ravel()
 
     def switch_ecg_signal(self):
         # Toggle between ECG signals with heart rates of 50 and 100
@@ -116,7 +123,8 @@ class InfoWidget(QWidget):
         self.resperation.setStyleSheet("background-color: black; color: white; min-width: 200px; border-width: 2px; border-style: solid; border-color: gray")
         self.layout().addWidget(self.resperation)
 
-        #padding
+    def update_info(GraphWidget):
+        hb = GraphWidget.ecg_rate
 
 
 

@@ -16,7 +16,7 @@ Recommended Changes:
 '''
 
 import sys
-from PySide6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget, QPushButton, QHBoxLayout
+from PySide6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget, QPushButton, QHBoxLayout, QLabel
 import numpy as np
 import pyqtgraph as pg
 import neurokit2 as nk              #neurokit2 library for creating ECG & RSP signal
@@ -102,8 +102,10 @@ class InfoWidget(QWidget):
         #Ceates box for formatting
         self.setLayout(QVBoxLayout())
 
-        self.heart_beat = QPushButton("test")
+        self.heart_beat = QLabel("test")
         self.layout().addWidget(self.heart_beat)
+
+
 
 
 

@@ -20,7 +20,8 @@ from PySide6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget, Q
 import numpy as np
 import pyqtgraph as pg
 import neurokit2 as nk              #neurokit2 library for creating ECG & RSP signal
-import smbus
+import busio
+import board
 
 
 #global variables
@@ -32,7 +33,7 @@ state = 0
 
 #for the comunication logic
 address = 0x2a
-bus = smbus.SMBus(0)
+bus = smbus.SMBus(1)
 
 def read():
     status = bus.read_byte_data(address, 1)

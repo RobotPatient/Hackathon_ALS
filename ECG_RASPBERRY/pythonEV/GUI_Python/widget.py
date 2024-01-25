@@ -193,17 +193,18 @@ class MainWindow(QMainWindow):
 def main():
     global status
 
+    if read() == 84:
+        status = 1
+    else:
+        status = 0
+    print(read())
+
     app = QApplication(sys.argv)
     main_window = MainWindow()
     main_window.setStyleSheet("background-color: black")
     main_window.show()
     sys.exit(app.exec())
-    print(read())
-
-    if read() == 84:
-        status = 1
-    else:
-        status = 0
+    
 
 if __name__ == '__main__':
     main()

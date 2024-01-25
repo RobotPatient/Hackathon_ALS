@@ -144,7 +144,7 @@ class InfoWidget(QWidget):
         #update data fieldsS
         if state == 1:
             self.heart_beat.setText(str(ecg_rate) + " BPM")
-            self.resperation.setText(str(rsp_rate) + " BPM")
+            self.resperation.setText(str(rsp_rate) + " RPM")
         else:
             self.heart_beat.setText('0')
             self.resperation.setText('0')

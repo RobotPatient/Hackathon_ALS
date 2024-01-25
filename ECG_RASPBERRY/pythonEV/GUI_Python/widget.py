@@ -182,10 +182,10 @@ class InfoWidget(QWidget):
             self.temp.setStyleSheet("background-color: black; color: red; max-height: 50px; border-width: 2px; border-style: solid; border-color: gray; font-size: 15px; text-align: center")
             self.temp.setText("the termometer is not connected")
         elif term1 == 1 and term2 == 0:
-            self.temp.setStyleSheet("background-color: black; color: green; max-height: 50px; border-width: 2px; border-style: solid; border-color: gray; font-size: 15px; text-align: center")
+            self.temp.setStyleSheet("background-color: black; color: yellow; max-height: 50px; border-width: 2px; border-style: solid; border-color: gray; font-size: 15px; text-align: center")
             self.temp.setText("term1: 23C, temp2: not connected")
         elif term1 == 0 and term2 == 2:
-            self.temp.setStyleSheet("background-color: black; color: green; max-height: 50px; border-width: 2px; border-style: solid; border-color: gray; font-size: 15px; text-align: center")
+            self.temp.setStyleSheet("background-color: black; color: yellow; max-height: 50px; border-width: 2px; border-style: solid; border-color: gray; font-size: 15px; text-align: center")
             self.temp.setText("term1: not connected, temp2: 23C")
         else:
             self.temp.setStyleSheet("background-color: black; color: green; max-height: 50px; border-width: 2px; border-style: solid; border-color: gray; font-size: 15px; text-align: center")

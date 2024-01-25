@@ -78,24 +78,57 @@ void setup() {
 
 }
 
-Sensor mySensor(0X2A, &WireSensorA);
+Sensor tempSens1(0X68, &WireSensorA, 500, 4000);
+Sensor tempSens2(0X68, &WireSensorB, 500, 4000);
+Sensor ECG_LL(0X2A, &WireSensorA, 0, 2);
+Sensor ECG_LA(0X2A, &WireSensorA, 0, 2);
+Sensor ECG_RA(0X2A, &WireSensorA, 0, 2);
+
 
 void loop() {
+int16_t tempSens1Waarde = 0;
+int16_t tempSens2Waarde = 0;
+int16_t ECG_LLWaarde = 0;
+int16_t ECG_LAWaarde = 0;
+int16_t ECG_RAWaarde = 0;
 
-  mySensor.wireObject->requestFrom(mySensor.deviceAddress, 3);
-  while (mySensor.wireObject->available()) {
-    Serial.println(mySensor.wireObject->read());
+
+  tempSens1.wireObject->requestFrom(tempSens1.deviceAddress, 2);
+  if (tempSens1.wireObject->available()) {
+    byte waarde1 = tempSens1.wireObject->read();
+    byte waarde2 = tempSens1.wireObject->read();
+    tempSens1Waarde = ((waarde1 & 0x0F) << 8) | (waarde2);
   }
 
+  tempSens2.wireObject->requestFrom(tempSens2.deviceAddress, 2);
+  if (tempSens2.wireObject->available()) {
+    byte waarde1 = tempSens2.wireObject->read();
+    byte waarde2 = tempSens2.wireObject->read();
+    tempSens2Waarde = ((waarde1 & 0x0F) << 8) | (waarde2);
+  }
 
+  ECG_LL.wireObject->requestFrom(ECG_LL.deviceAddress, 3);
+  if (ECG_LL.wireObject->available()) {
+    byte ECG_LLWaarde = ECG_LL.wireObject->read();
+    byte ECG_LAWaarde = ECG_LL.wireObject->read();
+    byte ECG_RAWaarde = ECG_LL.wireObject->read();
+  }
+
+   // Use individual bits to represent different information
+  byte responseData = 0;
+  
+  responseData |= (tempSens1.isCableConnected(tempSens1Waarde));
+  responseData |= (tempSens2.isCableConnected(tempSens2Waarde) << 1);
+  responseData |= (ECG_LL.howCableConnected(ECG_LLWaarde) << 2);
+  responseData |= (ECG_LA.howCableConnected(ECG_LAWaarde) << 4);
+  responseData |= (ECG_RA.howCableConnected(ECG_RAWaarde) << 6);
+
+  Serial.println(responseData,BIN);
 
   digitalWrite(ledHb, HIGH);
   delay(500);
   digitalWrite(ledHb, LOW);
   delay(500);
-  //readADC(&WireSensorA);
-  //  sendmessage();
-  //readADC(&WireSensorB);
 }
 
 void sendData() {
@@ -128,7 +161,7 @@ void sendData() {
   WireBackbone.write(resultByte);
   }
 */
-void readADC(TwoWire *wire) {
+void readADC(TwoWire * wire) {
 
   wire->requestFrom(ECG_MODULE_ADDR, 3);
   if (wire->available() >= 3) {

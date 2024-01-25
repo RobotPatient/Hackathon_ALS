@@ -103,7 +103,7 @@ class InfoWidget(QWidget):
         self.setLayout(QVBoxLayout())
 
         self.heart_beat = QLabel("test")
-        self.heart_beat.setStyleSheet("background-color: black, text-color: green")
+        self.heart_beat.setStyleSheet("background-color: black; color: white")
         self.layout().addWidget(self.heart_beat)
 
 

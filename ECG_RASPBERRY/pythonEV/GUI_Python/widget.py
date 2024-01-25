@@ -20,8 +20,7 @@ from PySide6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget, Q
 import numpy as np
 import pyqtgraph as pg
 import neurokit2 as nk              #neurokit2 library for creating ECG & RSP signal
-import busio
-import board
+import smbus
 
 
 #global variables

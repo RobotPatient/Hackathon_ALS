@@ -68,15 +68,9 @@ class GraphWidget(QWidget):
 
 
     def create_ecg_signal(self):
-        if self.state == 1:
             # Generate ECG & RSP using NeuroKit library
             self.ecg_part = nk.ecg_simulate(duration=10, sampling_rate=500, noise=0.1, heart_rate=self.ecg_rate).ravel()
             self.rsp15_part = nk.rsp_simulate(duration=20, sampling_rate=800, noise=0.005, respiratory_rate=15, method="breathmetrics").ravel()
-        else:
-            self.ecg_part = nk.ecg_simulate(duration=10, sampling_rate=500, noise=0.1, heart_rate=1).ravel()
-            self.rsp15_part = nk.rsp_simulate(duration=20, sampling_rate=800, noise=0.005, respiratory_rate=1, method="breathmetrics").ravel()
-
-
 
     def switch_ecg_signal(self):
         # Toggle between ECG signals with heart rates of 50 and 100
@@ -86,20 +80,20 @@ class GraphWidget(QWidget):
     def toggle_all(self):
         #toggle between on and off
         self.state = 0 if self.state == 1 else 1
-        self.create_ecg_signal()
 
 
     def update_plot(self):
-        # Increment the x-axis values to simulate advancing time
-        self.x_sin += 0.1
-        self.x_cos += 0.1
+        if self.state == 1:
+            # Increment the x-axis values to simulate advancing time
+            self.x_sin += 0.1
+            self.x_cos += 0.1
 
-        # Update the plot with the constant sinusoidal and cosinusoidal data
-        self.curve_sin.setData(self.x_sin, self.ecg_part)
-        self.curve_cos.setData(self.x_cos, self.rsp15_part)
+            # Update the plot with the constant sinusoidal and cosinusoidal data
+            self.curve_sin.setData(self.x_sin, self.ecg_part)
+            self.curve_cos.setData(self.x_cos, self.rsp15_part)
 
-        self.ecg_part = np.roll(self.ecg_part, -50)
-        self.rsp15_part = np.roll(self.rsp15_part, -50)
+            self.ecg_part = np.roll(self.ecg_part, -50)
+            self.rsp15_part = np.roll(self.rsp15_part, -50)
 
 class MainWindow(QMainWindow):
     def __init__(self):

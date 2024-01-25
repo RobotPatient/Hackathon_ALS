@@ -23,3 +23,11 @@ void actuatorBuzz()
         delay(500);
     }
 }
+
+void actuatorTrigger(int actuator, int durationON, int durationOFF)
+{
+    digitalWrite(actuatorPins[actuator],HIGH);
+    delay(durationON);
+    digitalWrite(actuatorPins[actuator], LOW);
+    delay(durationOFF);
+}

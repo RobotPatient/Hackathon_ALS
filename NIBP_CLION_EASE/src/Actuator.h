@@ -18,5 +18,6 @@ const int actuatorPins[numActuators] = {PA18, PA19, PA20, PA21, Act1, Act2};
 
 void initActuators();
 void actuatorBuzz();
+void actuatorTrigger(int actuator, int durationON, int durationOFF);
 
 #endif //NIBP_CLION_EASE_ACTUATOR_HPP

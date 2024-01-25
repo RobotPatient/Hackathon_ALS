@@ -45,7 +45,7 @@ class GraphWidget(QWidget):
 
         #Setup lines for upper & bottom plot
         self.curve_sin = self.plot_widget_sin.plot(self.x_sin, self.y_sin, pen='g', name='Sinus')
-        self.curve_cos = self.plot_widget_cos.plot(self.x_cos, self.y_cos, pen='r', name='Cosinus')
+        self.curve_cos = self.plot_widget_cos.plot(self.x_cos, self.y_cos, pen='w', name='Cosinus')
 
         # Set titles for the plot widgets
         self.plot_widget_sin.setTitle("ECG")
@@ -103,6 +103,7 @@ class InfoWidget(QWidget):
         self.setLayout(QVBoxLayout())
 
         self.heart_beat = QLabel("test")
+        self.heart_beat.setStyleSheet("background-color: lightgreen")
         self.layout().addWidget(self.heart_beat)
 
 

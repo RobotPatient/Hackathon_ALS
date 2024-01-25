@@ -108,12 +108,12 @@ class InfoWidget(QWidget):
 
         #HB info
         self.heart_beat = QLabel("HB")
-        self.heart_beat.setStyleSheet("background-color: black; color: green; min-width: 100px; border-width: 2px; border-style: solid; border-color: gray")
+        self.heart_beat.setStyleSheet("background-color: black; color: green; min-width: 20vw; border-width: 2px; border-style: solid; border-color: gray")
         self.layout().addWidget(self.heart_beat)
 
         #RP info
         self.resperation = QLabel("RP")
-        self.resperation.setStyleSheet("background-color: black; color: white; min-width: 100px; border-width: 2px; border-style: solid; border-color: gray")
+        self.resperation.setStyleSheet("background-color: black; color: white; min-width: 20vw; border-width: 2px; border-style: solid; border-color: gray; margin-bottom: 10vh")
         self.layout().addWidget(self.resperation)
 
 

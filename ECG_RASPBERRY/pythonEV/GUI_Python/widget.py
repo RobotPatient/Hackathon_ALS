@@ -160,6 +160,7 @@ class InfoWidget(QWidget):
         self.timer.start(1000)  # Update every 100 milliseconds
 
     def update_info(self):
+        global status
         #update data fieldsS
         if state == 1:
             self.heart_beat.setText(str(ecg_rate) + " BPM")
@@ -171,6 +172,12 @@ class InfoWidget(QWidget):
             self.resperation.setText('0')
             self.connection.setStyleSheet("background-color: black; color: red; max-height: 50px; border-width: 2px; border-style: solid; border-color: gray; font-size: 15px; text-align: center")
             self.connection.setText("the leads are not connected")
+
+        if read() == 84:
+            status = 1
+        else:
+            status = 0
+        print(read())
             
 
 
@@ -191,14 +198,6 @@ class MainWindow(QMainWindow):
         layout.addWidget(self.info_widget)
 
 def main():
-    global status
-
-    if read() == 84:
-        status = 1
-    else:
-        status = 0
-    print(read())
-
     app = QApplication(sys.argv)
     main_window = MainWindow()
     main_window.setStyleSheet("background-color: black")

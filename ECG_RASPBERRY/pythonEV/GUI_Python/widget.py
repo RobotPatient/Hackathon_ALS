@@ -96,7 +96,7 @@ class GraphWidget(QWidget):
             self.rsp15_part = np.roll(self.rsp15_part, -50)
 
 class info_widget(QWidget):
-    def __init__(selfe, parent=none):
+    def __init__(selfe, parent=None):
         super(InfoWidget, self).__init__(parent)
 
         #Ceates box for formatting

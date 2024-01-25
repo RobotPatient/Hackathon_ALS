@@ -31,6 +31,8 @@ class GraphWidget(QWidget):
         #Initializes Plot
         self.plot_widget_sin = pg.PlotWidget()
         self.plot_widget_cos = pg.PlotWidget()
+        self.plot_widget_sin.setStyleSheet("border-width: 2px; border-style: solid; border-color: white")
+        self.plot_widget_cos.setStyleSheet("border-width: 2px; border-style: solid; border-color: white")
 
         #Ceates box for formatting
         self.setLayout(QVBoxLayout())
@@ -102,9 +104,15 @@ class InfoWidget(QWidget):
         #Ceates box for formatting
         self.setLayout(QVBoxLayout())
 
-        self.heart_beat = QLabel("test")
-        self.heart_beat.setStyleSheet("background-color: black; color: white")
+        #HB info
+        self.heart_beat = QLabel("HB")
+        self.heart_beat.setStyleSheet("background-color: black; color: green; min-width: 20%; border-width: 2px; border-style: solid; border-color: white")
         self.layout().addWidget(self.heart_beat)
+
+        #RP info
+        self.resperation = QLabel("RP")
+        self.resperation.setStyleSheet("background-color: black; color: red; min-width: 20%; border-width: 2px; border-style: solid; border-color: white")
+        self.layout().addWidget(self.resperation)
 
 
 
@@ -126,6 +134,7 @@ class MainWindow(QMainWindow):
 def main():
     app = QApplication(sys.argv)
     main_window = MainWindow()
+    main_window.setStyleSheet("background-color: black")
     main_window.show()
     sys.exit(app.exec())
 

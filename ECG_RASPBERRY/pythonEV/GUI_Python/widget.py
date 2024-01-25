@@ -94,8 +94,13 @@ class GraphWidget(QWidget):
         self.create_ecg_signal()
 
     def toggle_all(self):
-        #toggle between on and off
-        self.state = 1 if self.state == 0 else 0
+        #toggle between on and off'
+        if self.state == 0:
+            self.state = 1  
+            state = 1
+        else:
+            self.state = 0
+            state = 0
 
 
     def update_plot(self):

@@ -150,12 +150,12 @@ class InfoWidget(QWidget):
         if state == 1:
             self.heart_beat.setText(str(ecg_rate) + " BPM")
             self.resperation.setText(str(rsp_rate) + " RPM")
-            self.connection.setStyleSheet("color: green")
+            self.connection.setStyleSheet("background-color: black; color: green; max-height: 50px; border-width: 2px; border-style: solid; border-color: gray; font-size: 15px; text-align: center")
             self.connection.setText("the leads are connected")
         else:
             self.heart_beat.setText('0')
             self.resperation.setText('0')
-            self.connection.setStyleSheet("color: red")
+            self.connection.setStyleSheet("background-color: black; color: red; max-height: 50px; border-width: 2px; border-style: solid; border-color: gray; font-size: 15px; text-align: center")
             self.connection.setText("the leads are not connected")
             
 

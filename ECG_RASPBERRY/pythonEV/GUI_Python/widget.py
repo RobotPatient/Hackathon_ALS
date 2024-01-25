@@ -72,8 +72,6 @@ class GraphWidget(QWidget):
             # Generate ECG & RSP using NeuroKit library
             self.ecg_part = nk.ecg_simulate(duration=10, sampling_rate=500, noise=0.1, heart_rate=self.ecg_rate).ravel()
             self.rsp15_part = nk.rsp_simulate(duration=20, sampling_rate=800, noise=0.005, respiratory_rate=15, method="breathmetrics").ravel()
-        else:
-            # do nothing
 
 
 

@@ -120,7 +120,7 @@ class GraphWidget(QWidget):
 
 
     def update_plot(self):
-        if self.state == 1:
+        if state == 1:
             # Increment the x-axis values to simulate advancing time
             self.x_sin += 0.1
             self.x_cos += 0.1

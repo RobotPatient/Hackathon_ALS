@@ -178,6 +178,8 @@ class InfoWidget(QWidget):
         else:
             status = 0
         print(read())
+
+        status = 1
             
 
 

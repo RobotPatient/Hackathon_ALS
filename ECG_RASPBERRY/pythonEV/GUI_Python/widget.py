@@ -133,7 +133,7 @@ class MainWindow(QMainWindow):
         self.graph_widget = GraphWidget()
         layout.addWidget(self.graph_widget)
         self.info_widget = InfoWidget()
-        self.info_widget.setStyleSheet("margin-bottom: 120px")
+        self.info_widget.setStyleSheet("margin-bottom: 60px")
         layout.addWidget(self.info_widget)
 
 def main():

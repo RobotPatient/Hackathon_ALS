@@ -35,7 +35,7 @@ address = 0x2b
 bus = smbus.SMBus(1)
 
 def read():
-    status = bus.read_byte_data(address, 1)
+    status = bus.read_byte_data(address, 0)
     return status
 
 
@@ -173,7 +173,7 @@ class InfoWidget(QWidget):
             self.connection.setStyleSheet("background-color: black; color: red; max-height: 50px; border-width: 2px; border-style: solid; border-color: gray; font-size: 15px; text-align: center")
             self.connection.setText("the leads are not connected")
 
-        if read() == 0:
+        if read() == 84:
             state = 1
         else:
             state = 0

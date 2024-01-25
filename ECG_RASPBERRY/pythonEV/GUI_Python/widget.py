@@ -136,7 +136,7 @@ class InfoWidget(QWidget):
         #setup a timer
         self.timer = pg.QtCore.QTimer(self)
         self.timer.timeout.connect(self.update_info)
-        self.timer.start(100)  # Update every 100 milliseconds
+        self.timer.start(1000)  # Update every 100 milliseconds
 
     def update_info(self):
         #update data fieldsS

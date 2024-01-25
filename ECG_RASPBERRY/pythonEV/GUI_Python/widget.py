@@ -135,6 +135,11 @@ class InfoWidget(QWidget):
         self.resperation.setStyleSheet("background-color: black; color: white; min-width: 200px; border-width: 2px; border-style: solid; border-color: gray; font-size: 45px; text-align: center")
         self.layout().addWidget(self.resperation)
 
+        #conection info
+        self.resperation = QLabel("leads are not connected")
+        self.resperation.setStyleSheet("background-color: black; color: red; max-hight: 100px; border-width: 2px; border-style: solid; border-color: gray; font-size: 15px; text-align: center")
+        self.layout().addWidget(self.resperation)
+
         #setup a timer
         self.timer = pg.QtCore.QTimer(self)
         self.timer.timeout.connect(self.update_info)
@@ -165,7 +170,6 @@ class MainWindow(QMainWindow):
         self.graph_widget = GraphWidget()
         layout.addWidget(self.graph_widget)
         self.info_widget = InfoWidget()
-        self.info_widget.setStyleSheet("margin-bottom: 60px")
         layout.addWidget(self.info_widget)
 
 def main():

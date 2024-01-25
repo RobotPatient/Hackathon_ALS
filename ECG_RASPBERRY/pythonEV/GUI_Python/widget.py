@@ -77,7 +77,7 @@ class GraphWidget(QWidget):
         # Add button to switch between ECG signals
         self.button_switch_ecg = QPushButton("Switch ECG")
         self.button_switch_ecg.clicked.connect(self.switch_ecg_signal)
-        self.button_switch_ecg.setStyleSheet("color: white; border-color: gray; max-height: 50px")
+        self.button_switch_ecg.setStyleSheet("color: white; border-color: gray; min-height: 50px")
         self.layout().addWidget(self.button_switch_ecg)
 
         # Set up a QTimer to update the x-axis at regular intervals

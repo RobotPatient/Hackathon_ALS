@@ -161,7 +161,7 @@ class InfoWidget(QWidget):
             self.resperation.setText(str(rsp_rate) + " RPM")
             self.connection.setStyleSheet("background-color: black; color: green; max-height: 50px; border-width: 2px; border-style: solid; border-color: gray; font-size: 15px; text-align: center")
             self.connection.setText("the leads are connected")
-        else if state == 0:
+        elif state == 0:
             self.heart_beat.setText('0')
             self.resperation.setText('0')
             self.connection.setStyleSheet("background-color: black; color: red; max-height: 50px; border-width: 2px; border-style: solid; border-color: gray; font-size: 15px; text-align: center")
@@ -169,7 +169,7 @@ class InfoWidget(QWidget):
 
         if read() == 84:
             state = 1
-        else if read() > 84:
+        elif read() > 84:
             state = 0
             self.connection.setStyleSheet("background-color: black; color: yellow; max-height: 50px; border-width: 2px; border-style: solid; border-color: gray; font-size: 15px; text-align: center")
             self.connection.setText("the leads are not connected correctly")

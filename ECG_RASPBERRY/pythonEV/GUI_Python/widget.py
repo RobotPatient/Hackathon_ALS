@@ -31,7 +31,7 @@ rsp_rate = 15
 state = 0
 
 #for the comunication logic
-address = 0x2a
+address = 0x2b
 bus = smbus.SMBus(1)
 
 def read():

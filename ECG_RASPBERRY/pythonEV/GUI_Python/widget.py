@@ -198,6 +198,7 @@ def main():
     main_window.setStyleSheet("background-color: black")
     main_window.show()
     sys.exit(app.exec())
+    print(read())
 
     if read() == 84:
         status = 1

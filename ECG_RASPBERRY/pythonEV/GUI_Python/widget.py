@@ -137,7 +137,7 @@ class InfoWidget(QWidget):
 
         #conection info
         self.connection = QLabel("leads are not connected")
-        self.connection.setStyleSheet("background-color: black; color: red; max-height: 60px; border-width: 2px; border-style: solid; border-color: gray; font-size: 15px; text-align: center")
+        self.connection.setStyleSheet("background-color: black; color: red; max-height: 50px; border-width: 2px; border-style: solid; border-color: gray; font-size: 15px; text-align: center")
         self.layout().addWidget(self.connection)
 
         #setup a timer

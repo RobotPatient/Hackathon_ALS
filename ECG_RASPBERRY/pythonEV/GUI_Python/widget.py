@@ -172,7 +172,7 @@ class InfoWidget(QWidget):
             self.connection.setStyleSheet("background-color: black; color: red; max-height: 50px; border-width: 2px; border-style: solid; border-color: gray; font-size: 15px; text-align: center")
             self.connection.setText("the leads are not connected")
 
-        bin = bin(read())
+        bin = read()
 
         term1 = bin & 0b00000001
         term2 = bin & 0b00000010

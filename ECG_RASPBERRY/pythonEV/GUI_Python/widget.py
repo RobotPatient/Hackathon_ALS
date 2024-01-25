@@ -31,8 +31,8 @@ class GraphWidget(QWidget):
         #Initializes Plot
         self.plot_widget_sin = pg.PlotWidget()
         self.plot_widget_cos = pg.PlotWidget()
-        self.plot_widget_sin.setStyleSheet("border-width: 2px; border-style: solid; border-color: white")
-        self.plot_widget_cos.setStyleSheet("border-width: 2px; border-style: solid; border-color: white")
+        self.plot_widget_sin.setStyleSheet("border-width: 2px; border-style: solid; border-color: gray")
+        self.plot_widget_cos.setStyleSheet("border-width: 2px; border-style: solid; border-color: gray")
 
         #Ceates box for formatting
         self.setLayout(QVBoxLayout())
@@ -56,11 +56,13 @@ class GraphWidget(QWidget):
         # Add button to switch between ECG signals
         self.button_switch_ecg = QPushButton("Switch ECG")
         self.button_switch_ecg.clicked.connect(self.switch_ecg_signal)
+        self.button_switch_ecg.setStyleSheet("color: white")
         self.layout().addWidget(self.button_switch_ecg)
 
         #Add button to turn of ECG signals and respiration signals
         self.button_toggle_all = QPushButton("Turn ON / OFF")
         self.button_toggle_all.clicked.connect(self.toggle_all)
+        self.button_toggle_all.setStyleSheet("color: white")
         self.layout().addWidget(self.button_toggle_all)
 
         # Set up a QTimer to update the x-axis at regular intervals
@@ -106,12 +108,12 @@ class InfoWidget(QWidget):
 
         #HB info
         self.heart_beat = QLabel("HB")
-        self.heart_beat.setStyleSheet("background-color: black; color: green; min-width: 20%; border-width: 2px; border-style: solid; border-color: white")
+        self.heart_beat.setStyleSheet("background-color: black; color: green; min-width: 100px; border-width: 2px; border-style: solid; border-color: gray")
         self.layout().addWidget(self.heart_beat)
 
         #RP info
         self.resperation = QLabel("RP")
-        self.resperation.setStyleSheet("background-color: black; color: red; min-width: 20%; border-width: 2px; border-style: solid; border-color: white")
+        self.resperation.setStyleSheet("background-color: black; color: white; min-width: 100px; border-width: 2px; border-style: solid; border-color: gray")
         self.layout().addWidget(self.resperation)
 
 

@@ -20,10 +20,24 @@ from PySide6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget, Q
 import numpy as np
 import pyqtgraph as pg
 import neurokit2 as nk              #neurokit2 library for creating ECG & RSP signal
+import smbus
 
+
+#global variables
+
+#for the ui logic
 ecg_rate = 50
 rsp_rate = 15
 state = 0
+
+#for the comunication logic
+address = 0x2a
+bus = smbus.SMBus(0)
+
+def read():
+    status = bus.read_byte_data(address, 1)
+    return status
+
 
 class GraphWidget(QWidget):
     def __init__(self, parent=None):
@@ -177,11 +191,18 @@ class MainWindow(QMainWindow):
         layout.addWidget(self.info_widget)
 
 def main():
+    global status
+
     app = QApplication(sys.argv)
     main_window = MainWindow()
     main_window.setStyleSheet("background-color: black")
     main_window.show()
     sys.exit(app.exec())
+
+    if read() == 63:
+        status = 1
+    else:
+        status = 0
 
 if __name__ == '__main__':
     main()

@@ -47,8 +47,8 @@ class GraphWidget(QWidget):
         self.layout().addWidget(self.plot_widget_cos)
 
         #Fill lines for first time
-        self.x_sin = np.linspace(0, 60, len(self.ecg_part))
-        self.x_cos = np.linspace(0, 60, len(self.rsp15_part))
+        self.x_sin = np.linspace(0, 10, len(self.ecg_part))
+        self.x_cos = np.linspace(0, 20, len(self.rsp15_part))
         self.y_sin = self.ecg_part
         self.y_cos = self.rsp15_part
 
@@ -80,8 +80,8 @@ class GraphWidget(QWidget):
 
     def create_ecg_signal(self):
             # Generate ECG & RSP using NeuroKit library
-            self.ecg_part = nk.ecg_simulate(duration=60, sampling_rate=500, noise=0.1, heart_rate=self.ecg_rate).ravel()
-            self.rsp15_part = nk.rsp_simulate(duration=60, sampling_rate=800, noise=0.005, respiratory_rate=rsp_rate, method="breathmetrics").ravel()
+            self.ecg_part = nk.ecg_simulate(duration=10, sampling_rate=500, noise=0.1, heart_rate=self.ecg_rate).ravel()
+            self.rsp15_part = nk.rsp_simulate(duration=20, sampling_rate=800, noise=0.005, respiratory_rate=rsp_rate, method="breathmetrics").ravel()
 
     def switch_ecg_signal(self):
         global ecg_rate
@@ -150,9 +150,13 @@ class InfoWidget(QWidget):
         if state == 1:
             self.heart_beat.setText(str(ecg_rate) + " BPM")
             self.resperation.setText(str(rsp_rate) + " RPM")
+            self.connection.setStyleSheet("color: green")
+            self.connection.setText("the leads are connected")
         else:
             self.heart_beat.setText('0')
             self.resperation.setText('0')
+            self.connection.setStyleSheet("color: red")
+            self.connection.setText("the leads are not connected")
             
 
 

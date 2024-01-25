@@ -84,6 +84,7 @@ class GraphWidget(QWidget):
             self.rsp15_part = nk.rsp_simulate(duration=20, sampling_rate=800, noise=0.005, respiratory_rate=rsp_rate, method="breathmetrics").ravel()
 
     def switch_ecg_signal(self):
+        global ecg_rate
         # Toggle between ECG signals with heart rates of 50 and 100
         if self.ecg_rate == 50:
             self.ecg_rate = 100 
@@ -94,6 +95,7 @@ class GraphWidget(QWidget):
         self.create_ecg_signal()
 
     def toggle_all(self):
+        global state
         #toggle between on and off'
         if self.state == 0:
             self.state = 1  
@@ -140,8 +142,12 @@ class InfoWidget(QWidget):
 
     def update_info(self):
         #update data fieldsS
-        self.heart_beat.setText(str(ecg_rate))
-        self.resperation.setText(str(rsp_rate))
+        if state == 1:
+            self.heart_beat.setText(str(ecg_rate))
+            self.resperation.setText(str(rsp_rate))
+        else:
+            self.heart_beat.setText('0')
+            self.resperation.setText('0')
             
 
 

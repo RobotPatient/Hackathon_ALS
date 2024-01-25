@@ -138,7 +138,7 @@ class InfoWidget(QWidget):
             self.heart_beat.setText('0')
             self.resperation.setText('0')
         else:
-            self.heart_beat.setText(str(ecg_rate))
+            self.heart_beat.setText('5')
             self.resperation.setText(str(rsp_rate))
 
 

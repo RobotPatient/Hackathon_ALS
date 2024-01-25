@@ -63,13 +63,7 @@ void setup() {
   // Configuration byte: 16-bit resolution, single-ended mode (channel), continuous conversion mode
   byte configByte = B10000000 | (channel << 4);
 
-  //WireSensorA.beginTransmission(TEMP_PRES_MODULE_ADDR);
-  //WireSensorA.write(configByte);
-  //WireSensorA.endTransmission();
-  //WireSensorB.beginTransmission(TEMP_PRES_MODULE_ADDR);
-  //WireSensorB.write(configByte);
-  //WireSensorB.endTransmission();
-  Wire.onRequest(sendData);
+  Wire.onRequest(requestEvent);
 
   Serial.println("Ready...");
   delay(500);
@@ -84,13 +78,15 @@ Sensor ECG_LL(0X2A, &WireSensorA, 0, 2);
 Sensor ECG_LA(0X2A, &WireSensorA, 0, 2);
 Sensor ECG_RA(0X2A, &WireSensorA, 0, 2);
 
+byte responseData = 0;
+
 
 void loop() {
-int16_t tempSens1Waarde = 0;
-int16_t tempSens2Waarde = 0;
-int16_t ECG_LLWaarde = 0;
-int16_t ECG_LAWaarde = 0;
-int16_t ECG_RAWaarde = 0;
+  int16_t tempSens1Waarde = 0;
+  int16_t tempSens2Waarde = 0;
+  int16_t ECG_LLWaarde = 0;
+  int16_t ECG_LAWaarde = 0;
+  int16_t ECG_RAWaarde = 0;
 
 
   tempSens1.wireObject->requestFrom(tempSens1.deviceAddress, 2);
@@ -109,26 +105,43 @@ int16_t ECG_RAWaarde = 0;
 
   ECG_LL.wireObject->requestFrom(ECG_LL.deviceAddress, 3);
   if (ECG_LL.wireObject->available()) {
-    byte ECG_LLWaarde = ECG_LL.wireObject->read();
-    byte ECG_LAWaarde = ECG_LL.wireObject->read();
-    byte ECG_RAWaarde = ECG_LL.wireObject->read();
+    ECG_LLWaarde = ECG_LL.wireObject->read();
+    ECG_LAWaarde = ECG_LL.wireObject->read();
+    ECG_RAWaarde = ECG_LL.wireObject->read();
+    Serial.print(ECG_LLWaarde);
+    Serial.print(ECG_LAWaarde);
+    Serial.println(ECG_RAWaarde);
   }
 
-   // Use individual bits to represent different information
-  byte responseData = 0;
+
+  // Use individual bits to represent different information
+  Serial.print(tempSens1.isCableConnected(tempSens1Waarde));
+  Serial.print(" ");
+  Serial.print(tempSens2.isCableConnected(tempSens2Waarde));
+  Serial.print(" ");
+  Serial.print(ECG_LL.howCableConnected(ECG_LAWaarde));
+  Serial.print(" ");
+  Serial.print(ECG_LA.howCableConnected(ECG_LAWaarde));
+  Serial.print(" ");
+  Serial.println(ECG_RA.howCableConnected(ECG_RAWaarde));
   
+  responseData = 0;
   responseData |= (tempSens1.isCableConnected(tempSens1Waarde));
   responseData |= (tempSens2.isCableConnected(tempSens2Waarde) << 1);
   responseData |= (ECG_LL.howCableConnected(ECG_LLWaarde) << 2);
   responseData |= (ECG_LA.howCableConnected(ECG_LAWaarde) << 4);
   responseData |= (ECG_RA.howCableConnected(ECG_RAWaarde) << 6);
 
-  Serial.println(responseData,BIN);
+  Serial.println(responseData, BIN);
 
   digitalWrite(ledHb, HIGH);
   delay(500);
   digitalWrite(ledHb, LOW);
   delay(500);
+}
+
+void requestEvent() {
+  Wire.write(responseData);
 }
 
 void sendData() {
